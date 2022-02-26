@@ -1,0 +1,59 @@
+<%- include('./partials/head.ejs') %> 
+
+<%- include('./partials/nav.ejs') %>
+
+<div class="blog content">
+  
+  <% if (tasks.length>0) { %> 
+    <h2>Tasks Not completed</h2>
+    <% tasks.forEach(task => { %>
+      <% if(!task.completed){ %>
+          <a href="/tasks/<%=task._id %>" class="single">
+            <h3 class="title"><%=task.description%></h3>
+          </a>
+        
+      <% } %>
+      
+    <%})%> 
+      <h2>Tasks Completed</h2>
+      <% tasks.forEach(task => { %>
+        <% if(task.completed){ %>
+          <div class="completed">
+            <a href="/tasks/<%=task._id %>" class="single">
+              <h3 class="title"><%=task.description%></h3>
+            </a>
+            <a class="delete <%= task._id %>" data-doc ="<%= task._id%>" onclick="deleteIcon(this)">
+              <img src="/trashcan.png" alt="trashcan icon">
+            </a>
+          </div>
+          
+        <% } %>
+    
+      
+    <%})%> 
+  <% } else {%>
+    <p>No blogs to display.....</p>
+  <% } %>
+</div>
+<script>
+  function deleteIcon(obj){
+    // console.log();
+    const className = obj.className.split(" ")[1];
+    // const trashcan = document.querySelector('.delete');
+    // trashcan.addEventListener('click', (e)=>{
+      const endpoint = `/tasks/${className}`;
+      console.log(endpoint);
+      fetch(endpoint, {
+        method: 'DELETE'
+      })
+      .then((response)=> response.json())    // parsing it in javascript object so that we can use
+      .then(data=>{
+        window.location.href = data.redirect;
+      })
+      .catch((err)=>{console.log(err)});
+    // });
+  }
+  
+</script>
+
+<%- include('./partials/footer.ejs') %>

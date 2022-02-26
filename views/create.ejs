@@ -1,0 +1,16 @@
+<%- include('./partials/head.ejs') %> 
+
+<%- include('./partials/nav.ejs') %>
+
+
+
+    <div class="create-blog">
+      <form action="/tasks" method="POST">
+        <label for="description">Task Description</label>
+        <input type="text" id="title" name="description" required />
+        <button>Submit</button>
+      </form>
+    </div>
+
+    
+<%- include('./partials/footer.ejs') %>
